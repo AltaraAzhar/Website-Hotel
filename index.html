@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Metro Hotel</title>
+
+    <!-- cdn boostrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- My Style -->
+    <link rel="stylesheet" href="css/style.css" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <script src="src/app.js" async></script>
+
+    <!-- Midtrans -->
+    <script type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="SB-Mid-client-EKQJn9CkCr6p9L5D"></script>
+
+      <!-- AOS animation -->
+      <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+
+  </head>
+
+  <body>
+     <!-- Navbar start -->
+     <nav class="navbar" x-data>
+      <a href="#" class="navbar-logo">Metro<span> Hotel</span>.</a>
+
+      <div class="navbar-nav">
+        <a href="#home">Home</a>
+        <a href="#about">Tentang Kami</a>
+        <a href="#menu">Fasilitas</a>
+        <a href="#products">Tipe Kamar</a>
+        <!-- <a href="#contact">Kontak</a> -->
+      </div>
+
+      <div class="navbar-extra">
+        <a href="https://wa.me/6281234567890?text= Halo%20Metro%20Hotel,%20saya%20ingin%20bertanya%20tentang%20pemesanan%20kamar" id="phone-button"><i data-feather="phone"></i></a>
+        <a href="Login.html" id="search-button"><i data-feather="user"></i></a>
+        <a href="#" id="shopping-cart-button">
+          <i data-feather="bookmark"></i>
+          <span
+            class="quantity-badge"
+            x-show="$store.cart.quantity"
+            x-text="$store.cart.quantity"
+          ></span>
+        </a>
+        <a href="#" id="hamburger-menu"><i data-feather="menu"></i></a>
+      </div>
+
+      <!-- Shopping Cart start -->
+      <div class="shopping-cart">
+        <template x-for="(item, index) in $store.cart.items" x-key="index">
+          <div class="cart-item">
+            <img :src="`img/products/${item.img}`" :alt="Product 1" />
+            <div class="item-detail">
+              <h3 x-text="item.name"></h3>
+              <div class="item-price">
+                <span x-text="rupiah(item.price)"></span>&times;
+                <button id="remove" @click="$store.cart.remove(item.id)">
+                  &minus;
+                </button>
+                <span x-text="item.quantity"></span>
+                <button id="add" @click="$store.cart.add(item)">&plus;</button>
+                &equals;
+                <span x-text="rupiah(item.total)"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+        <h4 x-show="!$store.cart.items.length">No book yet</h4>
+
+        <!-- Total hanya muncul jika ada item di dalam cart -->
+        <h4 x-show="$store.cart.items.length">
+          Total: <span x-text="rupiah($store.cart.total)"></span>
+        </h4>
+
+        <div class="form-container" x-show="$store.cart.items.length">
+          <form action="" id="checkoutForm">
+            <input type="hidden" name="items" x-model="JSON.stringify($store.cart.items)">
+            <input type="hidden" name="total" x-model="$store.cart.total">
+            <h5>Customer Detail</h5>
+            <label for="name">
+              <span>Name</span>
+              <input type="text" name="name" id="name" />
+            </label>
+            <label for="email">
+              <span>Email</span>
+              <input type="email" name="email" id="email" />
+            </label>
+            <label for="phone">
+              <span>Phone</span>
+              <input type="number" name="phone" id="phone" />
+            </label>
+
+            <h5>Date and Time</h5>
+            <label for="date">
+              <span>Date</span>
+              <input type="date" name="date" id="date" />
+            </label>
+
+            <label for="time">
+              <span>Time</span>
+              <input type="time" name="time" id="time" />
+            </label>
+
+            <button class="checkout-button disabled" type="submit" id="checkout-button" 
+            value="Checkout">Book Now</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Shopping Cart end -->
+    </nav>
+    <!-- Navbar end -->
+
+    <!-- Hero Section start -->
+    <section class="hero" id="home">
+      <div class="mask-container">
+        <main class="content">
+          <h1>Discover the <span> Comfortable</span></h1>
+          <p>Choose us once, and you will choose us always</p>
+        </main>
+      </div>
+    </section>
+    <!-- Hero Section end -->
+
+    <!-- About Section start -->
+    <section id="about" class="about" data-aos="fade-right" data-aos-delay="80" data-aos-duration="1000">
+      <h2><span>Tentang</span> Kami</h2>
+
+      <div class="row">
+        <div class="about-img">
+          <img src="img/About-Hotel.jpg" alt="Tentang Kami" />
+        </div>
+        <div class="content">
+          <h3>Kenapa memilih hotel kami?</h3>
+          <p>
+            Metro Hotel adalah destinasi ideal untuk Anda yang mencari
+            pengalaman menginap yang istimewa. Terletak di lokasi strategis,
+            hotel kami menawarkan beragam kamar modern dengan fasilitas lengkap
+            yang dirancang untuk kenyamanan Anda.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- About Section end -->
+
+    <!-- Menu Section start -->
+    <section id="menu" class="menu" data-aos="fade-up" data-aos-delay="130" data-aos-duration="1000">
+      <h2><span>Fasilitas</span> Hotel</h2>
+      <p>Metro Hotel menghadirkan fasilitas eksklusif untuk kenyamanan Anda.</p>
+
+      <div class="row">
+        <div class="menu-card">
+          <img src="img/menu/2.jpg" alt="Kolam" class="menu-card-img" />
+          <h3 class="menu-card-title">- Kolam Renang -</h3>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/3.jpg" alt="spa" class="menu-card-img" />
+          <h3 class="menu-card-title">- family spa -</h3>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/4.jpg" alt="Restaurant" class="menu-card-img" />
+          <h3 class="menu-card-title">- restoran -</h3>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/5.jpg" alt="Ballroom" class="menu-card-img" />
+          <h3 class="menu-card-title">- Ballroom -</h3>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/6.jpg" alt="Sport" class="menu-card-img" />
+          <h3 class="menu-card-title">- fasilitas olahraga -</h3>
+        </div>
+      </div>
+    </section>
+    <!-- Menu Section end -->
+
+    <!-- Products Section start -->
+    <section class="products" id="products" x-data="products" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="90">
+      <h2><span>Kamar Unggulan</span> Kami</h2>
+      <p>
+        Kami menawarkan tiga kategori kamar yang dirancang untuk memberikan
+        kenyamanan dan kemewahan selama menginap.
+      </p>
+
+      <div class="row">
+        <template x-for="(item, index) in items" x-key="index">
+          <div class="product-card">
+            <div class="product-icons">
+              <a href="#" @click.prevent="$store.cart.add(item)">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#bookmark" />
+                </svg>
+              </a>
+              <a href="#" class="item-detail-button">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#eye" />
+                </svg>
+              </a>
+            </div>
+            <div class="product-image">
+              <img :src="`img/products/${item.img}`" :alt="item.name" />
+            </div>
+            <div class="product-content">
+              <h3 x-text="item.name"></h3>
+              <div class="product-stars">
+                <!-- Bintang penuh -->
+                <template x-for="n in item.rating">
+                  <svg
+                    class="star-full"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <use href="img/feather-sprite.svg#star" />
+                  </svg>
+                </template>
+                <!-- Bintang kosong -->
+                <template x-for="n in (5 - item.rating)">
+                  <svg
+                    class="star-empty"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <use href="img/feather-sprite.svg#star" />
+                  </svg>
+                </template>
+              </div>              
+              <div class="product-price">
+                <span x-text="rupiah(item.price)"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+    <!-- Products Section end -->
+
+    <!-- Contact Section start -->
+    <section id="contact" class="contact">
+      <h2><span>Alamat</span> Kami</h2>
+      <div class="map-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d253840.49131637978!2d106.66470521326382!3d-6.229720928960999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sJakarta%2C%20Daerah%20Khusus%20Ibukota%20Jakarta!5e0!3m2!1sid!2sid!4v1730605337897!5m2!1sid!2sid"
+          allowfullscreen="
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="centered-map"
+        ></iframe>
+        <div class="address-container">
+          <p>Jl. Fiktif Raya No. 123, Jakarta Pusat 10110</p>
+          <p>Telp: +62 812-3456-7890</p>
+          <p>Fax: (62-21) 87654321</p>
+          <p>Email: info@metrohotel.com</p>
+        </div>
+        </div>
+    </section>
+    <!-- Footer start -->
+    <footer>
+      <div class="socials">
+        <a href="https://instagram.com/metrohotelindonesia"
+          ><i data-feather="instagram"></i
+        ></a>
+        <a href="https://twitter.com/MetroHotelID"
+          ><i data-feather="twitter"></i
+        ></a>
+        <a href="https://www.facebook.com/MetroHotel/"
+          ><i data-feather="facebook"></i
+        ></a>
+      </div>
+
+
+      <div class="credit">
+        <p>Created by <a href="">Metro Hotel</a>. | &copy; 2023.</p>
+      </div>
+    </footer>
+    <!-- Footer end -->
+
+    <!-- Modal Box Item Detail start -->
+    
+    <!-- Modal Box Item Detail end -->
+
+    <!-- Feather Icons -->
+    <script>
+      feather.replace();
+    </script>
+
+    <!-- My Javascript -->
+    <script src="js/script.js"></script>
+
+    <!-- AOS animation -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
+
+  </body>
+</html>
